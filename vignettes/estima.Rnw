@@ -1,0 +1,98 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+
+
+
+
+\usepackage{graphicx}
+
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+
+\setlength{\headheight}{-50pt}
+\setlength{\textheight}{708pt}
+
+\usepackage{pdfpages}
+%\VignetteIndexEntry{Estimation functions}
+
+\usepackage{Sweave}
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+\input{estima-concordance}
+
+\thispagestyle{empty}
+
+The goal of the estima function is to estimate the coefficients of the two centered autologistic regression:
+
+
+\begin{align*} logit(p_{i,t}) &= X^{T}_{i,t}\beta + \beta_{past} \sum_{j \in N_{i}^{past}} \!\!\!Z_{j,t-1} +  \rho_{1}\sum_{j \in N_{i}} Z^{**}_{j,t} + \rho_{2}Z_{i,t-1} \\
+\Leftrightarrow \qquad p_{i,t} &=  \frac{exp(X^{T}_{i,t}\beta + \beta_{past} \sum_{j \in N_{i}^{past}} \!\!\!Z_{j,t-1}+ \rho_{1}\sum_{j \in N_{i}} Z^{**}_{j,t} + \rho_{2}Z_{i,t-1})}{1+exp(X^{T}_{i,t}\beta + \beta_{past} \sum_{j \in N_{i}^{past}} \!\!\!Z_{j,t-1}+ \rho_{1}\sum_{j \in N_{i}} Z^{**}_{j,t}+ \rho_{2}Z_{i,t-1})}
+\end{align*}
+
+where $Z_{i,t}$ is a binary variable of parameter $p_{i,t}$, $N_{i}$ is the neighborhood of the site $i$ for the instantaneous spatial dependence, $N_{i}^{past}$ is the neighborhood of the site $i$ for the spatio-temporal dependence (spread of the illness)  and $Z_{i,t-1}^{**}$ is given by:
+
+
+
+$$ Z^{**}_{i,t} = Z_{i,t} - \frac{exp(X^{T}_{i,t}\beta  + \beta_{past} \sum_{j \in N_{i}^{past}} \!\!\!Z_{j,t-1}+ \rho_{2}Z_{i,t-1})}{1 + exp(X^{T}_{i,t}\beta  + \beta_{past} \sum_{j \in N_{i}^{past}} \!\!\!Z_{j,t-1}+ \rho_{2}Z_{i,t-1})}. $$
+
+\bigskip
+Estimation uses the pseudo-likelihood:
+
+$$
+\mathcal{L}(\beta,\beta_{past},\rho_1,\rho_2) = \prod_{t = 1}^{T} \prod_{1 \leq i \leq n} (p_{i,t})^{z_{i,t}}(1-p_{i,t})^{1-z_{i,t}}.
+$$For more detail see Gegout-Petit, Guérin-Dubrana, Li, 2019.
+
+\bigskip
+
+The parameters of spatio-temporal dependence
+$\rho_1$, $\rho_2$, $\beta_{past}$ can be interpreted as practical biological processes:
+
+\begin{itemize}
+\item Instantaneous spatial dependence $\rho_{1}$. It quantifies the spatial autocorrelation between neighbours for the occurence of the event at each time $t$,
+\item Temporal dependence $\rho_{2}$. It quantifies the temporal dependence on the previous year's status,
+\item Coefficient $\beta_{past}$: it quantifies the spread of the illness coming from the  previous year's status of the neighbours
+\end{itemize}
+
+
+The function "estima"  estimates the parameters with different possibilities for $\beta_{past}$ and $\sum_{j \in N_{i}^{past}} \!\!\!Z_{j,t-1}$:
+
+\begin{itemize}
+\item[if "covpast = FALSE :] estimates the parameter
+   $\beta = \begin{pmatrix}
+       \beta_{0} \\
+       \beta_{1} \\
+       \beta_{2} \\
+       \beta_{3} \\
+    \end{pmatrix}$
+  and
+   $X^{T}_{i,t} = \begin{pmatrix}
+       1 \\
+       x_{i,t}^{1} \\
+       x_{i,t}^{2} \\
+       x_{i,t}^{3} \\
+    \end{pmatrix}$
+    where $x_{i,t}^{j} \forall j \in (1,2,3)$ is a spatio-temporal covariate. There can be 0, 1, 2 or 3 covariates. In this case, there is no regression on   $\sum_{j \in N_{i}^{past}} \!\!\!Z_{j,t-1}$  ($\beta_{past}=0$).
+
+
+\item[if "covpast = TRUE" :] the function estimates the parameters
+  $ \beta = \begin{pmatrix}
+       \beta_{0} \\
+       \beta_{1} \\
+       \beta_{2} \\
+       \beta_{3} \\
+    \end{pmatrix}$
+    and
+    $\beta_{past}$.
+
+\end{itemize}
+
+
+
+
+\end{document}

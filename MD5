@@ -1,0 +1,16 @@
+355c2d62fb61bde8e3a5471145999607 *DESCRIPTION
+bba7713bdb89493b68c0c749de2c4ed5 *NAMESPACE
+1ea5f9b4f55e2fb4e69173bb0bfacbc4 *R/build.R
+96a15a3a4138b0d161ebafa84fe50fca *R/covplant.R
+f7a97dfced71404550a683032040b34f *R/estima.R
+216b0c7424aed8acb45a01fdb826cc9d *R/plantillness.R
+b9e587221c15ccbb3bc31f1a60773f0d *build/vignette.rds
+da85434225d60bc676fd545b25465b0a *data/covplant.RData
+76999114e63b1a1ba214636b37b72b41 *data/plantillness.RData
+005b1b4281774f8a960245fb740f392e *inst/doc/estima.Rnw
+0821b04d2c8dc01fe01e42be2d31fd9c *inst/doc/estima.pdf
+42bd486cf9ad8a08a869d6cac68d319a *man/build.Rd
+edc4081dcf4895b8c7365965d301ca54 *man/covplant.Rd
+eb6942b4ace6a7bba353be10dd30eeb9 *man/estima.Rd
+e29c4e805de19680052bf69f43e220a4 *man/plantillness.Rd
+005b1b4281774f8a960245fb740f392e *vignettes/estima.Rnw
